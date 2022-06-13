@@ -25,6 +25,7 @@
   },
   "type": "module",
   "dependencies": {
+    "axios": "^0.27.2",
     "babel-jest": "^28.1.1"
   }
 }
