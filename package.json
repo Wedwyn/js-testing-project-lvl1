@@ -2,7 +2,12 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/main.js",
+  "type": "module",
+  "bin": {
+    "page-loader": "bin/page-loader.js"
+  },
+
   "scripts": {
     "test": "jest"
   },
@@ -28,6 +33,5 @@
     "axios": "^0.27.2",
     "commander": "^9.3.0",
     "string": "^3.3.3"
-  },
-  "type": "module"
+  }
 }
