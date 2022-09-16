@@ -1,7 +1,7 @@
 import * as cheerio from 'cheerio';
 import fs from 'node:fs';
 import axios from 'axios';
-import {createImageName} from './createFileName.js';
+import {createImageName} from './createNames.js';
 
 const createImageUrl = (url, urlToImage) => {
     try { // если путь до изображения полный
