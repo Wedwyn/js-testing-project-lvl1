@@ -1,12 +1,23 @@
-import createFileName from './createFileName.js';
+import {createFileName, createDirectoryName} from './createNames.js';
 import savePageInDirectory from './SavePageInDirectory.js';
 import getPageFromUrl from './getPageFromUrl.js';
+import { mkdir } from 'node:fs/promises';
+import {saveImagesInDirectory} from './saveImages.js';
 
 
-const main = (url, path) => {
-    console.log(`Page was successfully downloaded into: ${path}`);
-    const modifiedPath = `${path}/${createFileName(url)}`;
-    getPageFromUrl(url).then(result => savePageInDirectory(modifiedPath, result.data));
+async function main(url, path) {
+
+    const result = await getPageFromUrl(url);
+
+    const directoryWithAllSavedStuff = createDirectoryName(url);
+    const directoryPath = `${path}/${directoryWithAllSavedStuff}`;
+    const htmlPagePath = `${directoryPath}/${createFileName(url)}`; 
+
+    const createDir = await mkdir(directoryPath, { recursive: true });
+    saveImagesInDirectory(directoryPath, result.data, url);
+    savePageInDirectory(htmlPagePath, result.data);
+    
+    console.log(`Page was successfully downloaded into: ${directoryPath}`);
 }
 
 export default main;
