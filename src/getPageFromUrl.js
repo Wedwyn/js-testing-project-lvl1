@@ -1,6 +1,6 @@
 import axios from 'axios';
-const getPageFromUrl = async (url) => {
-    return await axios.get(url);
+async function getPageFromUrl(url) {
+    return axios.get(url);
 }
 
 export default getPageFromUrl;
