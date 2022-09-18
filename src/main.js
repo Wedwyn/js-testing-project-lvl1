@@ -2,7 +2,7 @@ import {createFileName, createDirectoryName} from './createNames.js';
 import savePageInDirectory from './SavePageInDirectory.js';
 import getPageFromUrl from './getPageFromUrl.js';
 import { mkdir } from 'node:fs/promises';
-import {saveImagesInDirectory} from './saveImages.js';
+import {saveImagesInDirectory, replaceLinksToImages} from './saveImages.js';
 
 
 async function main(url, path) {
@@ -15,8 +15,9 @@ async function main(url, path) {
 
     const createDir = await mkdir(directoryPath, { recursive: true });
     saveImagesInDirectory(directoryPath, result.data, url);
-    savePageInDirectory(htmlPagePath, result.data);
-    
+    const finishedPage = replaceLinksToImages(directoryPath, result.data);
+    savePageInDirectory(htmlPagePath, finishedPage);
+
     console.log(`Page was successfully downloaded into: ${directoryPath}`);
 }
 
