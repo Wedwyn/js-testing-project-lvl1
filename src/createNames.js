@@ -1,7 +1,7 @@
 const createFileName = (url) => {
     const urlWithoutProtocol =  url.split('://').slice(1).join('');
     let modifiedUrl = '';
-    const allForbiddenSymbols = `!@#$%&*()+="';:{}[]~/.,`;
+    const allForbiddenSymbols = `!@#$%&*()+="';:{}[]~/.,_`;
     for (let i = 0; i < urlWithoutProtocol.length; i +=1) {
         let currentSymbol = urlWithoutProtocol[i];
         if (allForbiddenSymbols.indexOf(currentSymbol) !== -1) {
@@ -15,7 +15,7 @@ const createFileName = (url) => {
 const createDirectoryName = (url) => {
     const urlWithoutProtocol =  url.split('://').slice(1).join('');
     let modifiedUrl = '';
-    const allForbiddenSymbols = `!@#$%&*()+="';:{}[]~/.,`;
+    const allForbiddenSymbols = `!@#$%&*()+="';:{}[]~/.,_`;
     for (let i = 0; i < urlWithoutProtocol.length; i +=1) {
         let currentSymbol = urlWithoutProtocol[i];
         if (allForbiddenSymbols.indexOf(currentSymbol) !== -1) {
@@ -32,7 +32,7 @@ const createImageName = (url) => {
         urlWithoutProtocol =  url.slice(0, url.lastIndexOf('.')).split('://').slice(1).join('');
     }
     let modifiedUrl = '';
-    const allForbiddenSymbols = `!@#$%&*()+="';:{}[]~/.,`;
+    const allForbiddenSymbols = `!@#$%&*()+="';:{}[]~/.,_`;
     for (let i = 0; i < urlWithoutProtocol.length; i +=1) {
         let currentSymbol = urlWithoutProtocol[i];
         if (allForbiddenSymbols.indexOf(currentSymbol) !== -1) {
