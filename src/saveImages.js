@@ -64,7 +64,7 @@ const replaceLinksToImages = (directoryPath, data) => {
     
 }
 
-export {saveImagesInDirectory, replaceLinksToImages};
+export {saveImagesInDirectory, replaceLinksToImages, createImageUrl, makeListOfLinksToImages};
 
 // https://page-loader.hexlet.repl.co/
 // https://edgestile.com/works/show-work/1770/
