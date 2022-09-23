@@ -35,5 +35,6 @@ test('test main.js', async () => {
     const countOfHtmlFiles = files.filter((el) => el.split(el.lastIndexOf('.') === 'html')).length;
     const countOfImageFiles = files.filter((el) => el.split(el.lastIndexOf('.') === 'png')).length;
     expect(countOfHtmlFiles+countOfImageFiles).toBe(2);
+    scope.done();
 
 });
