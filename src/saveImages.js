@@ -25,7 +25,7 @@ const makeListOfLinksToImages = (directoryPath, urlsToImages) => {
     return pathToImages;
 }
 
-async function saveImagesInDirectory(directoryPath,data, url) {
+async function saveImagesInDirectory(directoryPath, data, url) {
 
     const $ = cheerio.load(data);
     const body = $('body');
@@ -57,10 +57,10 @@ const replaceLinksToImages = (directoryPath, data) => {
         urlsToImages.push(item.attribs.src);
     });
     const pathToImages = makeListOfLinksToImages(directoryPath, urlsToImages);
-    body.find('img').each(function(i, item) {
+    $('body').find('img').each(function(i, item) {
         item.attribs.src = `${pathToImages[i]}`;
     });
-    return body.html();
+    return $.html();
     
 }
 
