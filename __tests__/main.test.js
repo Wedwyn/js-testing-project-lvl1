@@ -20,14 +20,14 @@ afterEach(async () => {
 });
 
 test('test main.js', async () => {
-    const answer = await readFile(`${__dirname}/filesForTestMain/bodyForTestMain.txt`);
+    const answer = await readFile(`${__dirname}/filesForTest/bodyForTestMain.txt`);
     const scope = nock('https://page-loader.hexlet.repl.co/')
     .get('/')
     .reply(200, answer, {
         'Content-Type': 'text/html',
       })
     .get('/assets/professions/nodejs.png')
-    .replyWithFile(200, `${__dirname}/filesForTestMain/image.png`, {
+    .replyWithFile(200, `${__dirname}/filesForTest/image.png`, {
         'Content-Type': 'image/png'
     });
     await main('https://page-loader.hexlet.repl.co/', `${__dirname}${tempDirectoryName}`);
