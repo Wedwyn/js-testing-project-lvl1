@@ -5,8 +5,9 @@ import {createImageName} from './createNames.js';
 
 const createImageUrl = (url, urlToImage) => {
     try { // если путь до изображения полный
-        const host = new URL(urlToImage).hostname;
-        return urlToImage;
+        if (new URL(urlToImage).hostname) {
+            return urlToImage;
+        }
     }
     catch(e) { // если путь до изображения относительный
         const host = new URL(url).hostname;
