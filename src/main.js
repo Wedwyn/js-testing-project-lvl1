@@ -13,7 +13,7 @@ async function main(url, path) {
     const directoryPath = `${path}/${directoryWithAllSavedStuff}`;
     const htmlPagePath = `${directoryPath}/${createFileName(url)}`; 
 
-    const createDir = await mkdir(directoryPath, { recursive: true });
+     await mkdir(directoryPath, { recursive: true });
     saveImagesInDirectory(directoryPath, result.data, url);
     const finishedPage = replaceLinksToImages(directoryPath, result.data);
     savePageInDirectory(htmlPagePath, finishedPage);
