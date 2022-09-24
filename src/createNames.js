@@ -1,5 +1,10 @@
 const createFileName = (url) => {
-    const urlWithoutProtocol =  url.split('://').slice(1).join('');
+    let urlWithoutProtocol = '';
+    if (url.indexOf('://') === -1) {
+        urlWithoutProtocol = url;
+    } else {
+        urlWithoutProtocol =  url.split('://').slice(1).join('');
+    }
     let modifiedUrl = '';
     const allForbiddenSymbols = `!@#$%&*()+="';:{}[]~/.,_`;
     for (let i = 0; i < urlWithoutProtocol.length; i +=1) {
@@ -26,7 +31,7 @@ const createDirectoryName = (url) => {
     return `${modifiedUrl}_files`;
 }
 
-const createImageName = (url) => {
+const createResourceName = (url) => {
     let urlWithoutProtocol = url.slice(0, url.lastIndexOf('.'));
     if (urlWithoutProtocol.indexOf('://') !== -1) {
         urlWithoutProtocol =  url.slice(0, url.lastIndexOf('.')).split('://').slice(1).join('');
@@ -43,4 +48,4 @@ const createImageName = (url) => {
     return `${modifiedUrl}${url.slice(url.lastIndexOf('.'))}`;
 }
 
-export {createFileName, createDirectoryName, createImageName};
+export {createFileName, createDirectoryName, createResourceName};
