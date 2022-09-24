@@ -1,7 +1,7 @@
 import * as cheerio from 'cheerio';
 import fs from 'node:fs';
 import axios from 'axios';
-import {createImageName} from './createNames.js';
+import {createResourceName} from './createNames.js';
 
 const createImageUrl = (url, urlToImage) => {
     try { // если путь до изображения полный
@@ -19,7 +19,7 @@ const createImageUrl = (url, urlToImage) => {
 const makeListOfLinksToImages = (directoryPath, urlsToImages) => {
     const pathToImages = [];
     for (let i = 0; i < urlsToImages.length; i += 1) {
-        const fileName = createImageName(urlsToImages[i]);
+        const fileName = createResourceName(urlsToImages[i]);
         const filePath = `${directoryPath}/${fileName}`;
         pathToImages.push(filePath);
     }
