@@ -2,6 +2,7 @@ import * as cheerio from 'cheerio';
 import axios from 'axios';
 import { writeFile } from 'node:fs/promises';
 import {createResourceName, createFileName} from './createNames.js';
+import fs from 'node:fs';
 
 const createResourceUrl = (url, urlToResource) => {
     try { // если ссылка находится на этом же хосте
@@ -26,7 +27,7 @@ const makeListOfLinksToResources = (directoryPath, urlsToResources) => {
     const pathToResources = [];
     for (let i = 0; i < urlsToResources.length; i += 1) {
         let fileName = '';
-        if (urlsToResources[i].indexOf('.') === -1) {
+        if ((urlsToResources[i].length - urlsToResources[i].lastIndexOf('.') > 5) || urlsToResources[i].indexOf('.') === -1) {
             fileName = createFileName(urlsToResources[i]);
         } else {
             fileName = createResourceName(urlsToResources[i]);
@@ -45,18 +46,35 @@ async function saveResourcesInDirectory(directoryPath, data, url) {
     const scripts = html.find('script');
     const urlsToResources = [];
     resources.each(function(i, item) {
-        urlsToResources.push(item.attribs.href);
+        if (item.attribs.href !== undefined) {
+            urlsToResources.push(item.attribs.href);
+        }
     });
     scripts.each(function(i, item) {
-        urlsToResources.push(item.attribs.src);
+        if (item.attribs.src !== undefined) {
+            urlsToResources.push(item.attribs.src);
+        }
     });
 
     const pathToResources = makeListOfLinksToResources(directoryPath, urlsToResources);
 
     for (let i = 0; i < urlsToResources.length; i += 1) {
         if (createResourceUrl(url, urlsToResources[i])) {
-            const content = await axios.get(createResourceUrl(url, urlsToResources[i]));
-            writeFile(pathToResources[i], content.data);
+            const expansion = pathToResources[i].slice(pathToResources.lastIndexOf('.')-2);
+            const typesOfExpansion = ['jpg', 'svg', 'png', 'gif', 'ico'];
+            if (typesOfExpansion.indexOf(expansion) !== -1){
+                await axios({
+                    method: 'get',
+                    url : createResourceUrl(url, urlsToResources[i]),
+                    responseType: 'stream'
+                  })
+                    .then(function (response) {
+                      response.data.pipe(fs.createWriteStream(pathToResources[i]));
+                    });
+            } else {
+                const content = await axios.get(createResourceUrl(url, urlsToResources[i]));
+                await writeFile(pathToResources[i], content.data);
+            }
         }
     }
 }
@@ -68,10 +86,14 @@ const replaceLinksToResurces = (directoryPath, data) => {
     const scripts = html.find('script');
     const urlsToResources = [];
     resources.each(function(i, item) {
-        urlsToResources.push(item.attribs.href);
+        if (item.attribs.href !== undefined) {
+            urlsToResources.push(item.attribs.href);
+        }
     });
     scripts.each(function(i, item) {
-        urlsToResources.push(item.attribs.src);
+        if (item.attribs.src !== undefined) {
+            urlsToResources.push(item.attribs.src);
+        }
     });
     const pathToResources = makeListOfLinksToResources(directoryPath, urlsToResources);
     $('html').find('link').each(function(i, item) {
@@ -82,12 +104,6 @@ const replaceLinksToResurces = (directoryPath, data) => {
     });
     return $.html();
 }
-
-// const directoryPath = '/home/wedwyn/test/downloads/links4';
-// const url = 'https://page-loader.hexlet.repl.co/';
-// const res = await axios.get(url);
-// const data = res.data;
-// await saveResourcesInDirectory(directoryPath, data, url);
 
 export {makeListOfLinksToResources, replaceLinksToResurces, createResourceUrl, saveResourcesInDirectory};
 
