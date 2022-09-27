@@ -9,6 +9,9 @@ const createResourceUrl = (url, urlToResource) => {
         new URL(urlToResource, url);
         try { // если путь до файла полный
             if (new URL(urlToResource).hostname) {
+                if (new URL(urlToResource).hostname !== new URL(url).hostname){
+                    return false;
+                }
                 return urlToResource;
             }
         }
