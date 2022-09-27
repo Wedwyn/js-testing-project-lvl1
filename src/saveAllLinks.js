@@ -99,11 +99,13 @@ const replaceLinksToResurces = (directoryPath, data) => {
         }
     });
     const pathToResources = makeListOfLinksToResources(directoryPath, urlsToResources);
+    let count = 0;
     $('html').find('link').each(function(i, item) {
+        count += 1;
         item.attribs.href = `${pathToResources[i]}`;
     });
     $('html').find('script').each(function(i, item) {
-        item.attribs.src = `${pathToResources[i]}`;
+        item.attribs.src = `${pathToResources[i+count]}`;
     });
     return $.html();
 }
